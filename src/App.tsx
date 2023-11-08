@@ -1,28 +1,22 @@
-import List from "./components/List";
+import Button from "./components/Button";
+import Form from "./components/Form";
+import Input from "./components/Input";
 
 function App() {
-  const users = [
-    { id: "u1", name: "Max" },
-    { id: "u2", name: "Manuel" },
-  ];
+  const handleSave = (data: unknown) => {
+    const extractedData = data as { name: string; age: string };
+    console.log(extractedData);
+  };
 
-  const hobbies = ["Sports", "Reading", "Cooking"];
   return (
     <main>
-      <section>
-        <h2>Users</h2>
-        <List
-          items={users}
-          renderItem={(user) => <li key={user.id}>{user.name}</li>}
-        />
-      </section>
-      <section>
-        <h2>Hobbies</h2>
-        <List
-          items={hobbies}
-          renderItem={(hobby) => <li key={hobby}>{hobby}</li>}
-        />
-      </section>
+      <Form onSave={handleSave}>
+        <Input type="text" label="name" id="name" />
+        <Input type="number" label="age" id="age" />
+        <p>
+          <Button>Save</Button>
+        </p>
+      </Form>
     </main>
   );
 }
