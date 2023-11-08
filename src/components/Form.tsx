@@ -1,23 +1,46 @@
-import { type FormEvent, type ComponentPropsWithoutRef } from "react";
+import {
+  type FormEvent,
+  type ComponentPropsWithoutRef,
+  useRef,
+  useImperativeHandle,
+  forwardRef,
+} from "react";
+
+export type FormHandle = {
+  clear: () => void;
+};
 
 interface FormProps extends ComponentPropsWithoutRef<"form"> {
   onSave: (value: unknown) => void;
 }
 
-const Form = ({onSave, children, ...props}: FormProps) => {
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+const Form = forwardRef<FormHandle, FormProps>(
+  ({ onSave, children, ...props }, ref) => {
+    const form = useRef<HTMLFormElement>(null);
 
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData);
-    onSave(data);
-  };
+    useImperativeHandle(ref, () => {
+      return {
+        clear() {
+          console.log("clearing...");
+          form.current?.reset();
+        },
+      };
+    });
 
-  return (
-    <form onSubmit={handleSubmit} {...props}>
-      {children}
-    </form>
-  );
-};
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+
+      const formData = new FormData(e.currentTarget);
+      const data = Object.fromEntries(formData);
+      onSave(data);
+    };
+
+    return (
+      <form onSubmit={handleSubmit} {...props} ref={form}>
+        {children}
+      </form>
+    );
+  }
+);
 
 export default Form;
