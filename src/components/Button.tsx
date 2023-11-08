@@ -1,16 +1,21 @@
 import { ComponentPropsWithoutRef } from "react";
 
 interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
-  element: "button";
+  href?: never;
 }
 
 interface AnchorProps extends ComponentPropsWithoutRef<"a"> {
-  element: "anchor";
+  href?: string;
 }
 
+const isAnchorProps = (
+  props: ButtonProps | AnchorProps
+): props is AnchorProps => {
+  return "href" in props;
+};
+
 const Button = (props: ButtonProps | AnchorProps) => {
-  // const {element, ...otherProps}
-  if (props.element === "anchor") {
+  if (isAnchorProps(props)) {
     return <a className="button" {...props}></a>;
   }
   return <button className="button" {...props}></button>;
