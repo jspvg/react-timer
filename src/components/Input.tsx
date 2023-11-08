@@ -1,13 +1,15 @@
-interface InputProps {
+import { ComponentPropsWithoutRef } from "react";
+
+interface InputProps extends ComponentPropsWithoutRef<"input"> {
   label: string;
   id: string;
 }
 
-const Input = ({ label, id }: InputProps) => {
+const Input = ({ label, id, ...props }: InputProps) => {
   return (
     <p>
       <label htmlFor={id}>{label}</label>
-      <input id={id} type="text" />
+      <input id={id} {...props} />
     </p>
   );
 };
