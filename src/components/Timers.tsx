@@ -1,12 +1,12 @@
-import { useTimersContext } from "../store/timers-context";
+import useTimersContext from "../hooks/useTimersContext";
 import Timer from "./Timer";
 
 const Timers = () => {
   const { timers } = useTimersContext();
   return (
     <ul>
-      {timers.map((timer) => (
-        <li key={timer.name}>
+      {timers.map((timer, index) => (
+        <li key={index}>
           <Timer {...timer} />
         </li>
       ))}

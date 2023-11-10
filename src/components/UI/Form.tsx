@@ -21,7 +21,6 @@ const Form = forwardRef<FormHandle, FormProps>(
     useImperativeHandle(ref, () => {
       return {
         clear() {
-          console.log("clearing...");
           form.current?.reset();
         },
       };

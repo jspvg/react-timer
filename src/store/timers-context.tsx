@@ -1,56 +1,15 @@
-import { createContext, useContext, type ReactNode, useReducer } from "react";
-
-export type Timer = {
-  name: string;
-  duration: number;
-};
-
-type TimersState = {
-  isRunning: boolean;
-  timers: Timer[];
-};
+import { type ReactNode, useReducer } from "react";
+import { TimersState, Action, TimersContextValue } from "../types/timerTypes";
+import { TimersContext } from "../hooks/useTimersContext";
 
 const initialState: TimersState = {
   isRunning: true,
   timers: [],
 };
 
-type TimersContextValue = TimersState & {
-  addTimer: (timerData: Timer) => void;
-  startTimers: () => void;
-  stopTimers: () => void;
-};
-
-const TimersContext = createContext<TimersContextValue | null>(null);
-
-export const useTimersContext = () => {
-  const timersCtx = useContext(TimersContext);
-
-  if (timersCtx === null) {
-    throw new Error("TimerContext cannot be null.");
-  }
-
-  return timersCtx;
-};
-
 interface TimersContextProviderProps {
   children: ReactNode;
 }
-
-type StartTimersAction = {
-  type: "START_TIMERS";
-};
-
-type StopTimersAction = {
-  type: "STOP_TIMERS";
-};
-
-type AddtTimerAction = {
-  type: "ADD_TIMER";
-  payload: Timer;
-};
-
-type Action = StartTimersAction | StopTimersAction | AddtTimerAction;
 
 const timersReducer = (state: TimersState, action: Action): TimersState => {
   if (action.type === "START_TIMERS") {

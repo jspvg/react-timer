@@ -1,5 +1,5 @@
+import useTimersContext from "../hooks/useTimersContext.ts";
 import Button from "./UI/Button.tsx";
-import { useTimersContext } from "../store/timers-context.tsx";
 
 const Header = () => {
   const timersCtx = useTimersContext();
